@@ -18,6 +18,17 @@ wine = load_wine()
 X = wine.data
 y = wine.target
 
+#
+# Visualização dos dados
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=y, palette='Set1', s=60)
+plt.title('Distribuição dos Dados Originais')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
 # Normalização
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
@@ -26,7 +37,7 @@ X_scaled = scaler.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(
     X_scaled, y,
     test_size=0.3,
-    random_state=42,
+    random_state=42, ## para reprodutibilidade
     stratify=y
 )
 
