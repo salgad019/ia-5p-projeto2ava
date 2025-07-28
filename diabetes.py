@@ -12,8 +12,15 @@ import time
 
 # --- 1. Carregar e preparar dados ---
 
+# DIFERENÇA: Este arquivo carrega dados de um CSV online via URL
+# projeto.py: usa dataset Wine do sklearn (built-in)
+# soybean.py: usa UCI repository com fetch_ucirepo
 url = "https://www.dropbox.com/scl/fi/4q2lfh5grcsblh2e0q4pq/diabetes_dataset.csv?rlkey=duspqdg8a6v9nrhq7vam6s17f&dl=1"
 df = pd.read_csv(url)
+
+# DIFERENÇA: Este arquivo faz one-hot encoding de variáveis categóricas
+# projeto.py: não tem variáveis categóricas para tratar
+# soybean.py: usa LabelEncoder para as classes target
 
 # Converter colunas categóricas em dummies (one-hot encoding)
 df_encoded = pd.get_dummies(df, columns=['gender', 'location', 'smoking_history'])
@@ -65,6 +72,10 @@ plt.tight_layout()
 plt.show()
 
 # --- 3. Scatter plot PCA 2D ---
+
+# DIFERENÇA: Este arquivo usa rótulos descritivos personalizados
+# projeto.py: usa classes numéricas diretas (0, 1, 2)
+# soybean.py: usa loop com encoder.inverse_transform para múltiplas classes
 
 # Mapeando as classes 0 e 1 para rótulos mais descritivos
 rotulos = {0: 'Sem diabetes', 1: 'Com diabetes'}

@@ -14,11 +14,14 @@ import seaborn as sns
 
 # 1. Carregar e preparar dados
 
+# DIFERENÇA: Este arquivo usa o dataset Wine do sklearn (built-in)
+# Outros arquivos: diabetes.py usa CSV online, soybean.py usa UCI repository
 wine = load_wine()
 X = wine.data
 y = wine.target
 
-#
+# DIFERENÇA: Apenas este arquivo inclui visualização dos dados originais
+# Outros arquivos não fazem essa visualização inicial
 # Visualização dos dados
 plt.figure(figsize=(10, 6))
 sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=y, palette='Set1', s=60)
@@ -28,6 +31,11 @@ plt.ylabel('Feature 2')
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+# DIFERENÇA: Este arquivo tem pré-processamento mais simples
+# Apenas normalização, sem tratamento de valores faltantes ou encoding
+# diabetes.py: inclui one-hot encoding de variáveis categóricas
+# soybean.py: inclui imputação de valores faltantes + label encoding
 
 # Normalização
 scaler = StandardScaler()
@@ -80,6 +88,9 @@ plt.show()
 
 # 3. Scatter plot PCA 2D
 
+# DIFERENÇA: Este arquivo usa classes numéricas diretas (0, 1, 2) 
+# diabetes.py: usa rótulos descritivos ('Sem diabetes', 'Com diabetes')
+# soybean.py: usa loop para múltiplas classes com encoder.inverse_transform
 df_pca2 = pd.DataFrame({
     'PC1': X_train_pca2[:, 0],
     'PC2': X_train_pca2[:, 1],

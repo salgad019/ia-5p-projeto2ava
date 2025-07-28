@@ -15,11 +15,16 @@ import seaborn as sns
 # ==============================
 # 1. Carregar dataset Soybean Large
 # ==============================
+# DIFERENÇA: Este arquivo usa UCI ML Repository com fetch_ucirepo
+# projeto.py: usa dataset Wine do sklearn (built-in)
+# diabetes.py: carrega dados de CSV online via URL
 soybean_large = fetch_ucirepo(id=90)
 
 X = soybean_large.data.features
 y = soybean_large.data.targets
 
+# DIFERENÇA: Apenas este arquivo mostra informações detalhadas do dataset
+# Outros arquivos fazem apenas prints básicos de formato
 print("Formato X:", X.shape)
 print("Formato y:", y.shape)
 print("Colunas:", list(X.columns))
@@ -28,6 +33,10 @@ print("Classes únicas:", y.iloc[:, 0].unique())
 # ==============================
 # 2. Pré-processamento
 # ==============================
+# DIFERENÇA: Este arquivo tem o pré-processamento mais complexo
+# Inclui imputação de valores faltantes + label encoding
+# projeto.py: apenas normalização
+# diabetes.py: one-hot encoding + normalização
 # Imputar valores faltantes com a média
 imputer = SimpleImputer(strategy='mean')
 X_imputed = imputer.fit_transform(X)
@@ -43,6 +52,8 @@ y_enc = encoder.fit_transform(y.values.ravel())
 # ==============================
 # 3. Dividir em treino/teste (70/30)
 # ==============================
+# DIFERENÇA: Este arquivo não usa stratify na primeira divisão
+# projeto.py e diabetes.py: usam stratify=y para manter proporção das classes
 X_train, X_test, y_train, y_test = train_test_split(
     X_scaled, y_enc, test_size=0.3, random_state=42
 )
@@ -60,6 +71,9 @@ explained_var_ratio = np.cumsum(pca_full.explained_variance_ratio_)
 # Número de componentes para 90% da variância
 n_components_90 = np.argmax(explained_var_ratio >= 0.9) + 1
 print("Número de componentes para 90% da variância:", n_components_90)
+
+# DIFERENÇA: Este arquivo inclui linhas de referência (90% variância)
+# projeto.py e diabetes.py: apenas a curva simples sem linhas de referência
 
 # Plot curva de variância acumulada
 plt.figure(figsize=(8,5))
@@ -81,6 +95,10 @@ X_pca_2d = pca_2d.fit_transform(X_scaled)
 pca_3d = PCA(n_components=3)
 X_pca_3d = pca_3d.fit_transform(X_scaled)
 
+# DIFERENÇA: Este arquivo usa loop para visualizar múltiplas classes
+# projeto.py: usa classes numéricas diretas no seaborn
+# diabetes.py: usa rótulos personalizados mapeados
+
 # Scatter plot PCA 2D
 plt.figure(figsize=(8,6))
 for cls in np.unique(y_enc):
@@ -97,6 +115,10 @@ plt.show()
 # ==============================
 # 6. Avaliação de modelos
 # ==============================
+
+# DIFERENÇA: Este arquivo usa nomes de variáveis diferentes para tempo
+# projeto.py e diabetes.py: usam t0, t1, tempo_treino, tempo_pred
+# Este arquivo: usa start_train, start_pred, train_time, pred_time
 def avaliar_modelo(model, Xtr, ytr, Xte, yte):
     start_train = time.time()
     model.fit(Xtr, ytr)
@@ -121,6 +143,10 @@ resultados.append(["Original", "k-NN", acc_knn_orig, tt_knn_orig, tp_knn_orig])
 acc_lr_orig, tt_lr_orig, tp_lr_orig = avaliar_modelo(logreg, X_train, y_train, X_test, y_test)
 resultados.append(["Original", "LogisticRegression", acc_lr_orig, tt_lr_orig, tp_lr_orig])
 
+# DIFERENÇA: Este arquivo faz nova divisão treino/teste para PCA
+# projeto.py e diabetes.py: reutilizam a divisão original aplicando PCA aos conjuntos já divididos
+# Este approach pode introduzir variabilidade adicional nos resultados
+
 # PCA-2D
 X_train_2d, X_test_2d, y_train_2d, y_test_2d = train_test_split(
     X_pca_2d, y_enc, test_size=0.3, random_state=42
@@ -144,6 +170,9 @@ resultados.append(["PCA-3D", "LogisticRegression", acc_lr_3d, tt_lr_3d, tp_lr_3d
 # ==============================
 # 7. Resultados
 # ==============================
+
+# DIFERENÇA: Este arquivo usa 'df_resultados' como nome da variável
+# projeto.py e diabetes.py: usam 'df_result'
 df_resultados = pd.DataFrame(resultados, columns=["Abordagem","Modelo","Acurácia","Tempo Treino (s)","Tempo Inferência (s)"])
 print(df_resultados)
 
