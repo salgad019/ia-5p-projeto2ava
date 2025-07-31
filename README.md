@@ -144,9 +144,6 @@ python projeto.py
 - **🔢 numpy:** Operações numéricas
 - **📈 matplotlib/seaborn:** Visualizações
 
-## 👨‍💻 Autor
-
-**salgad019** - Projeto de Inteligência Artificial (5º Período)
 
 ---
 
