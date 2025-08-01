@@ -28,7 +28,7 @@ Este projeto implementa uma **análise comparativa completa** do impacto da redu
 ### 3. **Soybean Seeds Dataset** 🌱
 - **Amostras:** 30.000 (sintético)
 - **Features:** 35 características morfológicas
-- **Classes:** 7 variedades de sementes
+- **Classes:** 19 variedades de sementes
 - **Tipo:** Dados sintéticos simulando características de sementes
 
 ## 🔬 Metodologia
